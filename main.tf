@@ -207,12 +207,12 @@ resource "azurerm_network_interface" "vm" {
   tags = var.tags
 }
 
-data "azurerm_public_ip" "vm" {
-  count               = var.nb_public_ip
-  name                = element(azurerm_public_ip.vm.*.name, count.index)
-  resource_group_name = azurerm_resource_group.vm.name
-
-  # needed for dynamic ip association
-  depends_on = [azurerm_network_interface.vm]
-}
+#data "azurerm_public_ip" "vm" {
+#  count               = var.nb_public_ip
+#  name                = element(azurerm_public_ip.vm.*.name, count.index)
+#  resource_group_name = azurerm_resource_group.vm.name
+#
+#  # needed for dynamic ip association
+#  depends_on = [azurerm_network_interface.vm]
+#}
 
