@@ -182,9 +182,7 @@ resource "azurerm_availability_set" "vm" {
 locals {
   domain_name_label = [
     for n in range(var.nb_public_ip) :
-    [
       length(compact(concat([var.domain_name_label], var.domain_name_labels))) > 0 ? length(range(var.nb_public_ip)) == length(compact(concat([var.domain_name_label], var.domain_name_labels))) ? element(compact(concat([var.domain_name_label], var.domain_name_labels)), n) : "${var.domain_name_label}-${n}" : null
-    ]
   ]
 }
 
