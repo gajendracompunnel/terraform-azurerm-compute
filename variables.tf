@@ -15,11 +15,6 @@ variable "security_group_id" {
   description = "The security group id to be associated with the network interface. Subnet-NSG-Association must be done outside this module"
 }
 
-variable "public_ip_dns" {
-  description = "Optional globally unique per datacenter region domain name label to apply to each public ip address. e.g. thisvar.varlocation.cloudapp.azure.com where you specify only thisvar here. This is an array of names which will pair up sequentially to the number of public ips defined in var.nb_public_ip. One name or empty string is required for every public ip. If no public ip is desired, then set this to an array with a single empty string."
-  default     = [""]
-}
-
 variable "admin_password" {
   description = "The admin password to be used on the VMSS that will be deployed. The password must meet the complexity requirements of Azure"
   default     = ""

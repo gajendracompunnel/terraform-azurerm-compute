@@ -179,13 +179,22 @@ resource "azurerm_availability_set" "vm" {
   tags                         = var.tags
 }
 
+locals {
+  domain_name_label = [
+    for n in range(var.nb_public_ip) :
+    [
+      length(compact(concat([var.domain_name_label], var.domain_name_labels))) > 0 ? length(range(var.nb_public_ip)) == length(compact(concat([var.domain_name_label], var.domain_name_labels))) ? element(compact(concat([var.domain_name_label], var.domain_name_labels)), n) : "${var.domain_name_label}-${n}" : null
+    ]
+  ]
+}
+
 resource "azurerm_public_ip" "vm" {
   count                        = var.nb_public_ip
   name                         = "${var.vm_hostname}-${random_string.vm-nonce.result}-${count.index}-publicIP"
   location                     = var.location
   resource_group_name          = azurerm_resource_group.vm.name
   allocation_method            = var.allocation_method
-  domain_name_label            = length(compact(concat([var.domain_name_label], var.domain_name_labels))) > 0 ? length(var.nb_public_ip) == length(compact(concat([var.domain_name_label], var.domain_name_labels)))? element(compact(concat([var.domain_name_label], var.domain_name_labels)), count.index) : "${var.domain_name_label}-${count.index}" : null
+  domain_name_label            = local.domain_name_label[count.index]
   tags                         = var.tags
 }
 
